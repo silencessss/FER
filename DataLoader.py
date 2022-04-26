@@ -52,7 +52,7 @@ def Read_JPG(Path_dir,images):
         image_NAME = images[num_images].split('.')[0] + '_aligned.jpg'
         path_each_image = os.path.join(Path_dir+image_NAME)
         #print(path_each_image)
-        image = load_img(path_each_image,target_size=(img_HEIGHT,img_WIDTH))
+        image = load_img(path_each_image,target_size=(img_HEIGHT,img_WIDTH,1))
         image = img_to_array(image,data_format=None)
         data.append(image)
     return data 
@@ -71,16 +71,50 @@ def main(Path_txt,Path_dir,SPLIT,PROPORTION):
     #Path_txt = r'F:/DataSet/#FER/RAF-DB/basic/EmoLabel/list_patition_label.txt'
     #Path_dir = r'F:/DataSet/#FER/RAF-DB/basic/Image/aligned/'
     images_list,labels_list=Read_TXT(Path_txt)
-    print(':|INFO|:Read txt success!!!')
+
+
+    print(':|INFO|: Read txt success!!!')
     print(len(images_list))
     print(len(labels_list))
 
     images = Read_JPG(Path_dir,images_list)
 
+    
+    Path_dir_OccR = r'F:/#DataSet/#FER/RAF-DB/basic/Image/Right_Occ/'
+    #Path_dir_OccL = r'F:/#DataSet/#FER/RAF-DB/basic/Image/Left_Occ/'
+    images_OccR = Read_JPG(Path_dir_OccR,images_list)
+    #images_OccL = Read_JPG(Path_dir_OccL,images_list)
+
+    for i in range(len(images_OccR)):
+        images.append(images_OccR[i])
+    
+    #for i in range(len(images_OccL)):
+    #    images.append(images_OccL[i])  
+
+
+    label_main=labels_list.copy()
+
+    for k in range(len(label_main)):
+        labels_list.append(label_main[k])
+
+    print(len(labels_list))
+
+    #for k in range(len(label_main)):
+    #    labels_list.append(label_main[k])
+    #print(len(labels_list))
     data,labels = Transfer_DATA(images,labels_list)
+
+    print(len(data))
+    print(len(labels))
 
     if SPLIT==True:
         train_x, valid_x, train_y, valid_y = TrainVal(data,labels,PROPORTION)
         return train_x, valid_x, train_y, valid_y
     else:
         return data,labels
+'''
+Path_txt_Train = r'F:/#DataSet/#FER/RAF-DB/basic/EmoLabel/list_patition_label.txt'
+Path_dir_Train = r'F:/#DataSet/#FER/RAF-DB/basic/Image/aligned/'
+train_x, test_x, train_y, test_y = main(Path_txt_Train,Path_dir_Train,SPLIT=True,PROPORTION=Configer.PROPORTION_TRAIN_TEST)
+'''
+

@@ -24,10 +24,10 @@ MODEL_FORMAT='h5'
 #----------------------------------------------------------#
 # Model Phase
 #----------------------------------------------------------#
-MODEL_PHASE_TRAIN=False
+MODEL_PHASE_TRAIN=True
 MODEL_PHASE_EVALUATE=True
 INIT_LR = 1e-4
-EPOCHS = 1
+EPOCHS = 60
 BS = 8 
 OPT = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 WEIGHT=r'E:/Project/FER/logs/checkpoints/epoch41-[0.8453].h5'
@@ -50,8 +50,7 @@ METRICS = [
 #----------------------------------------------------------#
 PATH_CHECKPOINT = './logs/checkpoints/epoch.{epoch:02d}-{val_accuracy:.4f}.h5'
 PATH_PRETRAINMODEL=r'E:/Project/FER/logs/checkpoints/epoch41-[0.8453].h5'
-PATH_PLOT = './logs/history/'+DATASET+'_'+BACKBONE+'_'+EPOCHS+'_'+SYSTEM_TIME
-
+PATH_PLOT = './logs/history/'+DATASET+'_'+BACKBONE+'_'+str(EPOCHS)+'_'+SYSTEM_TIME
 PATH_MODEL = os.path.join('./models',DATASET,BACKBONE,str(TIME_NOW[0]),str(TIME_NOW[1]))
 
 

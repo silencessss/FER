@@ -69,11 +69,10 @@ print('[INFO] gpu setting done!')
 #----------------------------------------------------------#
 # LOADING Data---------------------------------------------#
 #----------------------------------------------------------#
-Path_txt_Train = r'F:/DataSet/#FER/RAF-DB/basic/EmoLabel/list_patition_label.txt'
-Path_dir_Train = r'F:/DataSet/#FER/RAF-DB/basic/Image/aligned/'
+Path_txt_Train = r'F:/#DataSet/#FER/RAF-DB/basic/EmoLabel/list_patition_label.txt'
+Path_dir_Train = r'F:/#DataSet/#FER/RAF-DB/basic/Image/aligned/'
 
-Path_txt_Test = r'F:/DataSet/#FER/RAF-DB/compound/EmoLabel/list_patition_label.txt'
-Path_dir_Test = r'F:/DataSet/#FER/RAF-DB/compound/Image/aligned/'
+
 
 train_x, test_x, train_y, test_y = DataLoader.main(Path_txt_Train,Path_dir_Train,SPLIT=True,PROPORTION=Configer.PROPORTION_TRAIN_TEST)
 
@@ -152,7 +151,7 @@ headModel = Dense(7, activation="softmax")(headModel)
 outModel = Model(inputs=baseModel.input, outputs=headModel)
 model = outModel
 #model = Sequential()
-model.load_weights(Configer.WEIGHT)
+#model.load_weights(Configer.WEIGHT)
 model.summary()
 
 #----------------------------------------------------------#
@@ -177,7 +176,7 @@ if Configer.MODEL_PHASE_TRAIN==True:
 
     CALLBACKS=[
         #tf.keras.callbacks.TensorBoard(log_dir=myconfig.path_log_dir,histogram_freq=1),
-        tf.keras.callbacks.ModelCheckpoint(filepath=Configer.PATH_checkpoint,save_weights_only=True,monitor='val_accuracy',mode='max',save_best_only=True),
+        tf.keras.callbacks.ModelCheckpoint(filepath=Configer.PATH_CHECKPOINT,save_weights_only=True,monitor='val_accuracy',mode='max',save_best_only=True),
         tf.keras.callbacks.LearningRateScheduler(LR_scheduler)
         #tf.keras.callbacks.EarlyStopping(monitor='val_loss',min_delta=0.8,patience=5,verbose=0,mode='auto',baseline=None,restore_best_weights=False)
     ]
